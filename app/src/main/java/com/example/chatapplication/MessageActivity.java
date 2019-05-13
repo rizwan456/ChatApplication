@@ -30,7 +30,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -91,8 +95,14 @@ public class MessageActivity extends AppCompatActivity {
         messageBinding.buttonSend.setOnClickListener(v -> {
             notify=true;
             String msg = messageBinding.textSend.getText().toString();
+
+            Date date = new Date();
+            String strDateFormat = "hh:mm:ss a";
+            DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+            String formattedDate= dateFormat.format(date);
+
             if (!msg.equals("")) {
-                sendMessage(firebaseUser.getUid(), userid, msg);
+                sendMessage(firebaseUser.getUid(), userid, msg,formattedDate);
             } else {
                 Toast.makeText(this, "Please write message....", Toast.LENGTH_SHORT).show();
             }
@@ -104,12 +114,15 @@ public class MessageActivity extends AppCompatActivity {
         messageBinding.recyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    private void sendMessage(String sender, String receiver, String message) {
+    private void sendMessage(String sender, String receiver, String message, String time) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
         hashMap.put("message", message);
+        hashMap.put("time", time);
 
         reference.child("Chats").push().setValue(hashMap);
 

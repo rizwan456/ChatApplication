@@ -8,28 +8,59 @@
 
     <LinearLayout
         android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:padding="15dp"
-        android:layout_height="wrap_content">
+        android:padding="15dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/profile_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:roundAsCircle="true"
-            android:id="@+id/profile_image"
-            android:background="@drawable/circle" />
+            android:layout_gravity="center"
+            android:background="@drawable/circle"
+            app:roundAsCircle="true" />
 
-        <TextView
-            android:id="@+id/userName"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="User Name"
-            android:layout_margin="10dp"
-            android:textSize="18sp"
-            android:textColor="#2c2c2c"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="3dp"
+                android:text="User Name"
+                android:textColor="#2c2c2c"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/lastMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="#898484"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
 
     </LinearLayout>
 </layout>

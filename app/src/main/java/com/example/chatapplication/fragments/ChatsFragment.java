@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -136,8 +137,9 @@ public class ChatsFragment extends Fragment {
                     for (String id : userList) {
                         if (user.getId().equals(id)) {
                             if (musers.size() != 0) {
-                                for (User user1 : musers) {
+                                for (User user1 : new ArrayList<User>(musers)) {
                                     if (!user.getId().equals(user1.getId())) {
+                                        musers.remove(user);
                                         musers.add(user);
                                     }
                                 }
@@ -146,7 +148,7 @@ public class ChatsFragment extends Fragment {
                             }
                         }
                     }
-                    chatsBinding.recyclerView.setAdapter(new UserAdapter(getContext(), musers));
+                    chatsBinding.recyclerView.setAdapter(new UserAdapter(getContext(), musers,0));
                 }
             }
 

@@ -106,7 +106,7 @@ public class UsersFragment extends Fragment {
                     }
                 }
 
-                usersBinding.recyclerView.setAdapter(new UserAdapter(getContext(),muser));
+                usersBinding.recyclerView.setAdapter(new UserAdapter(getContext(),muser,1));
             }
 
             @Override

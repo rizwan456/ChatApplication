@@ -1,18 +1,30 @@
 package com.example.chatapplication.Model;
 
+import java.sql.Timestamp;
+
 public class Chat {
     private String sender;
     private String Receiver;
     private String message;
+    private String time;
+
+    public Chat(String sender, String receiver, String message, String time) {
+        this.sender = sender;
+        Receiver = receiver;
+        this.message = message;
+        this.time = time;
+    }
 
     public Chat(){
 
     }
 
-    public Chat(String sender, String receiver, String message) {
-        this.sender = sender;
-        Receiver = receiver;
-        this.message = message;
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getSender() {
