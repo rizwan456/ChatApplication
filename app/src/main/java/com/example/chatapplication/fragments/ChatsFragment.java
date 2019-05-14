@@ -22,10 +22,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -91,8 +94,11 @@ public class ChatsFragment extends Fragment {
         return chatsBinding.getRoot();
     }
 
+    LinearLayoutManager mLayoutManager;
     private void setUp() {
-        chatsBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         userList = new ArrayList<>();
 
@@ -127,6 +133,7 @@ public class ChatsFragment extends Fragment {
     private void readChats() {
         musers = new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference("Users");
+        //reference.orderByChild("Chats")
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -148,6 +155,17 @@ public class ChatsFragment extends Fragment {
                             }
                         }
                     }
+
+                    mLayoutManager.setReverseLayout(true);
+                    mLayoutManager.setStackFromEnd(true);
+                    chatsBinding.recyclerView.setLayoutManager(mLayoutManager);
+                    /*Collections.sort(musers, new Comparator<User>() {
+                        @Override
+                        public int compare(User o1, User o2) {
+
+                            return 0;
+                        }
+                    });*/
                     chatsBinding.recyclerView.setAdapter(new UserAdapter(getContext(), musers,0));
                 }
             }
@@ -156,6 +174,8 @@ public class ChatsFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
+
         });
     }
 

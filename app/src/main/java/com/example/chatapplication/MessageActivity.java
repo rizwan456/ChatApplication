@@ -116,8 +116,6 @@ public class MessageActivity extends AppCompatActivity {
 
     private void sendMessage(String sender, String receiver, String message, String time) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("sender", sender);
         hashMap.put("receiver", receiver);
@@ -125,6 +123,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("time", time);
 
         reference.child("Chats").push().setValue(hashMap);
+        reference.child("Users").child(receiver).child("time").setValue(time);
 
         final String msg=message;
         reference=FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());

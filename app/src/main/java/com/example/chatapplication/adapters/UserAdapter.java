@@ -84,6 +84,7 @@ public class UserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 i.putExtra("userid",user.get(position).getId());
                 context.startActivity(i);
             });
+
         }
 
         public void lastMessage(int position){
