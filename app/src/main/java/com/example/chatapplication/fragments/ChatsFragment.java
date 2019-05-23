@@ -2,8 +2,12 @@ package com.example.chatapplication.fragments;
 
 
 import android.databinding.DataBindingUtil;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -26,6 +30,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -104,6 +109,7 @@ public class ChatsFragment extends Fragment {
 
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         reference.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userList.clear();
@@ -113,9 +119,11 @@ public class ChatsFragment extends Fragment {
                     if (chat.getSender().equals(fuser.getUid())) {
                         userList.add(chat.getReceiver());
                     }
+
                     if (chat.getReceiver().equals(fuser.getUid())) {
                         userList.add(chat.getSender());
                     }
+
                 }
                 readChats();
 
@@ -135,6 +143,7 @@ public class ChatsFragment extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference("Users");
         //reference.orderByChild("Chats")
         reference.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 musers.clear();
@@ -153,8 +162,29 @@ public class ChatsFragment extends Fragment {
                             } else {
                                 musers.add(user);
                             }
+
+
+
+                            Collections.sort(musers, (o1, o2) -> {
+                                DateFormat f = new SimpleDateFormat("HH:mm:ss a");
+                                if (o1.getTime() == null || o2.getTime() == null)
+                                    return 0;
+                                try {
+                                    return f.parse(o1.getTime()).compareTo(f.parse(o2.getTime()));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                    return  0;
+                                }
+                            });
+
+
+
+
+
                         }
                     }
+
+
 
                     mLayoutManager.setReverseLayout(true);
                     mLayoutManager.setStackFromEnd(true);
